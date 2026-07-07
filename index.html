@@ -1,0 +1,774 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karate Reaction Trainer</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      background: #05070b;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 20px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 40, 55, 0.18), transparent 28%),
+        radial-gradient(circle at 80% 15%, rgba(35, 140, 255, 0.18), transparent 30%),
+        linear-gradient(135deg, #05070b, #101521);
+    }
+  <head>
+      <meta charset="UTF-8">
+      <title>Karate Reaction Trainer</title>
+
+      <link rel="icon" type="image/png" href="favicon.png">
+  </head>
+    .top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 46px);
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: #8af0bd;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .timer {
+      text-align: right;
+      font-size: clamp(34px, 6vw, 70px);
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .state {
+      margin-top: 6px;
+      color: #9aa6b7;
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .stage {
+      display: grid;
+      place-items: center;
+      position: relative;
+      min-height: 0;
+    }
+
+    .circle {
+      width: min(58vw, 58vh, 460px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 2px solid rgba(255, 255, 255, 0.18);
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255,255,255,0.28), transparent 22%),
+        radial-gradient(circle, #858e9b, #4b535f);
+      box-shadow:
+        inset 0 -35px 80px rgba(0,0,0,0.35),
+        0 0 0 18px rgba(255,255,255,0.035),
+        0 0 80px rgba(130,145,165,0.4);
+      transition: background 0.28s ease, box-shadow 0.28s ease, transform 0.28s ease;
+    }
+
+    .circle.red {
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255,255,255,0.32), transparent 22%),
+        radial-gradient(circle, #ff4a56, #b80818);
+      box-shadow:
+        inset 0 -35px 80px rgba(0,0,0,0.35),
+        0 0 0 28px rgba(255,47,63,0.11),
+        0 0 120px rgba(255,47,63,0.75);
+      transform: scale(1.04);
+    }
+
+    .circle.blue {
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255,255,255,0.32), transparent 22%),
+        radial-gradient(circle, #35a7ff, #064eb8);
+      box-shadow:
+        inset 0 -35px 80px rgba(0,0,0,0.35),
+        0 0 0 28px rgba(32,147,255,0.11),
+        0 0 120px rgba(32,147,255,0.75);
+      transform: scale(1.04);
+    }
+
+    .circle-text {
+      text-align: center;
+      font-size: clamp(30px, 6vw, 70px);
+      font-weight: 900;
+      text-transform: uppercase;
+      text-shadow: 0 6px 26px rgba(0,0,0,0.5);
+    }
+
+    .circle-text span {
+      display: block;
+      margin-top: 10px;
+      font-size: clamp(12px, 2vw, 18px);
+      letter-spacing: 3px;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .stats {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .stat {
+      min-width: 110px;
+      padding: 12px 14px;
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
+    }
+
+    .stat small {
+      display: block;
+      color: #9aa6b7;
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 5px;
+      font-size: 24px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 8px;
+      background: rgba(12, 17, 26, 0.82);
+      backdrop-filter: blur(14px);
+    }
+
+    .buttons,
+    .settings {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    button,
+    select,
+    label {
+      height: 44px;
+      border-radius: 8px;
+      font: inherit;
+    }
+
+    button {
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.08);
+      color: white;
+      padding: 0 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: rgba(255,255,255,0.14);
+    }
+
+    .primary {
+      border-color: rgba(65, 230, 145, 0.5);
+      background: linear-gradient(135deg, #41e691, #2493ff);
+      color: #04110b;
+    }
+
+    .danger {
+      color: #ffdadd;
+      border-color: rgba(255, 47, 63, 0.45);
+    }
+
+    select {
+      border: 1px solid rgba(255,255,255,0.16);
+      background: #080c13;
+      color: white;
+      padding: 0 12px;
+      cursor: pointer;
+    }
+
+    label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 12px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+      color: #c9d2df;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .result {
+      position: fixed;
+      right: 20px;
+      bottom: 100px;
+      width: min(360px, calc(100vw - 40px));
+      padding: 18px;
+      border: 1px solid rgba(65, 230, 145, 0.35);
+      border-radius: 8px;
+      background: #111827;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: 0.25s ease;
+    }
+
+    .result.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .result h2 {
+      margin: 0 0 14px;
+      text-transform: uppercase;
+      font-size: 18px;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    @media (max-width: 760px) {
+      html,
+      body {
+        overflow: auto;
+      }
+
+      .app {
+        overflow: auto;
+        gap: 16px;
+      }
+
+      .top,
+      .controls {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .timer {
+        text-align: left;
+      }
+
+      .circle {
+        width: min(78vw, 42vh, 360px);
+      }
+
+      .result {
+        position: static;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <header class="top">
+      <div>
+        <h1>Тренажёр реакции</h1>
+        <div class="subtitle">Karate reaction trainer</div>
+
+        <div class="stats">
+          <div class="stat">
+            <small>Команды</small>
+            <strong id="total">0</strong>
+          </div>
+          <div class="stat">
+            <small>Красные</small>
+            <strong id="red">0</strong>
+          </div>
+          <div class="stat">
+            <small>Синие</small>
+            <strong id="blue">0</strong>
+          </div>
+          <div class="stat">
+            <small>В минуту</small>
+            <strong id="pace">0.0</strong>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="timer" id="timer">01:00</div>
+        <div class="state" id="state">Ожидание</div>
+      </div>
+    </header>
+
+    <section class="stage">
+      <div class="circle" id="circle">
+        <div class="circle-text" id="circleText">
+          Готов
+          <span id="circleSub">Нажмите старт</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="controls">
+      <div class="buttons">
+        <button class="primary" id="startBtn">Старт</button>
+        <button id="pauseBtn">Пауза</button>
+        <button class="danger" id="stopBtn">Стоп</button>
+        <button id="resetBtn">Сброс</button>
+        <button id="fullscreenBtn">⛶</button>
+      </div>
+
+      <div class="settings">
+        <select id="speedSelect">
+          <option value="slow">Медленно</option>
+          <option value="normal" selected>Нормально</option>
+          <option value="fast">Быстро</option>
+          <option value="extreme">Экстремально</option>
+        </select>
+
+        <select id="durationSelect">
+          <option value="30">30 секунд</option>
+          <option value="60" selected>1 минута</option>
+          <option value="120">2 минуты</option>
+          <option value="180">3 минуты</option>
+          <option value="300">5 минут</option>
+        </select>
+
+        <label>
+          <input type="checkbox" id="seriesToggle" checked />
+          Случайные серии
+        </label>
+      </div>
+    </section>
+
+    <aside class="result" id="result">
+      <h2 id="resultTitle">Итог тренировки</h2>
+      <div class="result-grid">
+        <div class="stat">
+          <small>Команды</small>
+          <strong id="resultTotal">0</strong>
+        </div>
+        <div class="stat">
+          <small>Красные</small>
+          <strong id="resultRed">0</strong>
+        </div>
+        <div class="stat">
+          <small>Синие</small>
+          <strong id="resultBlue">0</strong>
+        </div>
+        <div class="stat">
+          <small>В минуту</small>
+          <strong id="resultPace">0.0</strong>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    const circle = document.getElementById("circle");
+    const circleText = document.getElementById("circleText");
+    const circleSub = document.getElementById("circleSub");
+
+    const totalEl = document.getElementById("total");
+    const redEl = document.getElementById("red");
+    const blueEl = document.getElementById("blue");
+    const paceEl = document.getElementById("pace");
+    const timerEl = document.getElementById("timer");
+    const stateEl = document.getElementById("state");
+
+    const startBtn = document.getElementById("startBtn");
+    const pauseBtn = document.getElementById("pauseBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+    const speedSelect = document.getElementById("speedSelect");
+    const durationSelect = document.getElementById("durationSelect");
+    const seriesToggle = document.getElementById("seriesToggle");
+
+    const result = document.getElementById("result");
+    const resultTitle = document.getElementById("resultTitle");
+    const resultTotal = document.getElementById("resultTotal");
+    const resultRed = document.getElementById("resultRed");
+    const resultBlue = document.getElementById("resultBlue");
+    const resultPace = document.getElementById("resultPace");
+
+    const SPEEDS = {
+      slow: { min: 1600, max: 4200 },
+      normal: { min: 500, max: 3000 },
+      fast: { min: 320, max: 1350 },
+      extreme: { min: 180, max: 780 }
+    };
+
+    const COLOR_DURATION = 600;
+
+    let phase = "idle";
+    let delayTimer = null;
+    let colorTimer = null;
+    let clockTimer = null;
+
+    let endTime = 0;
+    let remainingMs = 60000;
+    let startedAt = 0;
+    let activeMs = 0;
+
+    let total = 0;
+    let red = 0;
+    let blue = 0;
+    let lastColor = null;
+    let audioCtx = null;
+
+    function random(min, max) {
+      return Math.floor(min + Math.random() * (max - min + 1));
+    }
+
+    function durationMs() {
+      return Number(durationSelect.value) * 1000;
+    }
+
+    function formatTime(ms) {
+      const seconds = Math.ceil(Math.max(0, ms) / 1000);
+      const m = Math.floor(seconds / 60);
+      const s = seconds % 60;
+      return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+    }
+
+    function ensureAudio() {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+
+      if (!audioCtx) {
+        audioCtx = new AudioContext();
+      }
+
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+    }
+
+    function beep(color) {
+      if (!audioCtx) return;
+
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(color === "red" ? 520 : 760, now);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.exponentialRampToValueAtTime(0.22, now + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.14);
+    }
+
+    function setCircle(mode) {
+      circle.className = "circle";
+
+      if (mode === "red") {
+        circle.classList.add("red");
+        circleText.firstChild.nodeValue = "Левая";
+        circleSub.textContent = "Красный сигнал";
+        return;
+      }
+
+      if (mode === "blue") {
+        circle.classList.add("blue");
+        circleText.firstChild.nodeValue = "Правая";
+        circleSub.textContent = "Синий сигнал";
+        return;
+      }
+
+      if (phase === "running") {
+        circleText.firstChild.nodeValue = "Ждите";
+        circleSub.textContent = "Следующая команда";
+      } else if (phase === "paused") {
+        circleText.firstChild.nodeValue = "Пауза";
+        circleSub.textContent = "Старт продолжит";
+      } else {
+        circleText.firstChild.nodeValue = "Готов";
+        circleSub.textContent = "Нажмите старт";
+      }
+    }
+
+    function chooseColor() {
+      if (!seriesToggle.checked || !lastColor) {
+        return Math.random() < 0.5 ? "red" : "blue";
+      }
+
+      const roll = Math.random();
+
+      if (roll < 0.36) {
+        return lastColor;
+      }
+
+      if (roll < 0.56) {
+        return lastColor === "red" ? "blue" : "red";
+      }
+
+      return Math.random() < 0.5 ? "red" : "blue";
+    }
+
+    function updateStats() {
+      totalEl.textContent = total;
+      redEl.textContent = red;
+      blueEl.textContent = blue;
+
+      const elapsed = phase === "running"
+        ? activeMs + Date.now() - startedAt
+        : activeMs;
+
+      paceEl.textContent = elapsed > 0
+        ? (total / (elapsed / 60000)).toFixed(1)
+        : "0.0";
+    }
+
+    function updateClock() {
+      if (phase === "running") {
+        remainingMs = endTime - Date.now();
+
+        if (remainingMs <= 0) {
+          finish("Готово");
+          return;
+        }
+      }
+
+      timerEl.textContent = formatTime(remainingMs);
+      updateStats();
+    }
+
+    function clearAllTimers() {
+      clearTimeout(delayTimer);
+      clearTimeout(colorTimer);
+      clearInterval(clockTimer);
+    }
+
+    function scheduleNext() {
+      if (phase !== "running") return;
+
+      setCircle("gray");
+
+      const speed = SPEEDS[speedSelect.value];
+      const delay = random(speed.min, speed.max);
+
+      delayTimer = setTimeout(showCommand, delay);
+    }
+
+    function showCommand() {
+      if (phase !== "running") return;
+
+      const color = chooseColor();
+
+      lastColor = color;
+      total++;
+
+      if (color === "red") red++;
+      if (color === "blue") blue++;
+
+      setCircle(color);
+      beep(color);
+      updateStats();
+
+      colorTimer = setTimeout(() => {
+        if (phase !== "running") return;
+        setCircle("gray");
+        scheduleNext();
+      }, COLOR_DURATION);
+    }
+
+    function start() {
+      ensureAudio();
+      result.classList.remove("show");
+
+      if (phase === "running") return;
+
+      if (phase === "paused") {
+        phase = "running";
+        startedAt = Date.now();
+        endTime = Date.now() + remainingMs;
+        stateEl.textContent = "Тренировка";
+        clockTimer = setInterval(updateClock, 200);
+        scheduleNext();
+        updateClock();
+        return;
+      }
+
+      phase = "running";
+      total = 0;
+      red = 0;
+      blue = 0;
+      lastColor = null;
+      activeMs = 0;
+      startedAt = Date.now();
+      remainingMs = durationMs();
+      endTime = Date.now() + remainingMs;
+
+      stateEl.textContent = "Тренировка";
+      setCircle("gray");
+      updateStats();
+      updateClock();
+
+      clockTimer = setInterval(updateClock, 200);
+      scheduleNext();
+    }
+
+    function pause() {
+      if (phase !== "running") return;
+
+      clearAllTimers();
+      activeMs += Date.now() - startedAt;
+      remainingMs = Math.max(0, endTime - Date.now());
+      phase = "paused";
+      stateEl.textContent = "Пауза";
+      setCircle("gray");
+      updateClock();
+    }
+
+    function stop() {
+      if (phase === "idle") return;
+      finish("Остановлено");
+    }
+
+    function reset() {
+      clearAllTimers();
+
+      phase = "idle";
+      total = 0;
+      red = 0;
+      blue = 0;
+      lastColor = null;
+      activeMs = 0;
+      remainingMs = durationMs();
+
+      stateEl.textContent = "Ожидание";
+      result.classList.remove("show");
+
+      setCircle("gray");
+      updateClock();
+    }
+
+    function finish(title) {
+      clearAllTimers();
+
+      if (phase === "running") {
+        activeMs += Math.max(0, Date.now() - startedAt);
+      }
+
+      phase = "finished";
+      remainingMs = 0;
+      stateEl.textContent = title;
+      timerEl.textContent = "00:00";
+
+      setCircle("gray");
+      showResult(title);
+      updateStats();
+    }
+
+    function showResult(title) {
+      const planned = durationMs();
+      const measured = Math.max(1000, Math.min(planned, activeMs || planned));
+      const average = total / (measured / 60000);
+
+      resultTitle.textContent = title === "Готово"
+        ? "Итог тренировки"
+        : "Тренировка остановлена";
+
+      resultTotal.textContent = total;
+      resultRed.textContent = red;
+      resultBlue.textContent = blue;
+      resultPace.textContent = average.toFixed(1);
+
+      result.classList.add("show");
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen?.();
+      } else {
+        document.exitFullscreen?.();
+      }
+    }
+
+    startBtn.addEventListener("click", start);
+    pauseBtn.addEventListener("click", pause);
+    stopBtn.addEventListener("click", stop);
+    resetBtn.addEventListener("click", reset);
+    fullscreenBtn.addEventListener("click", toggleFullscreen);
+
+    durationSelect.addEventListener("change", () => {
+      if (phase === "idle" || phase === "finished") {
+        remainingMs = durationMs();
+        updateClock();
+      }
+    });
+
+    speedSelect.addEventListener("change", () => {
+      if (phase === "running") {
+        clearTimeout(delayTimer);
+        clearTimeout(colorTimer);
+        scheduleNext();
+      }
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && phase === "running") {
+        pause();
+      }
+    });
+
+    reset();
+  </script>
+</body>
+</html>
+```
