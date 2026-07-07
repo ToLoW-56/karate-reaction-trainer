@@ -5,42 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Karate Reaction Trainer</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <meta name="theme-color" content="#05070b" />
 
-    html,
-    body {
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
       margin: 0;
       width: 100%;
       min-height: 100%;
       background: #05070b;
-      color: #ffffff;
+      color: white;
       font-family: Arial, sans-serif;
       overflow: hidden;
-    }
-
-    body {
-      min-height: 100vh;
     }
 
     .app {
       min-height: 100vh;
       display: grid;
       grid-template-rows: auto 1fr auto;
+      gap: 18px;
       padding: 20px;
       background:
-        radial-gradient(circle at 20% 20%, rgba(255, 40, 55, 0.18), transparent 28%),
-        radial-gradient(circle at 80% 15%, rgba(35, 140, 255, 0.18), transparent 30%),
-        linear-gradient(135deg, #05070b, #101521);
+        radial-gradient(circle at 20% 20%, rgba(255,47,63,.18), transparent 30%),
+        radial-gradient(circle at 80% 15%, rgba(32,147,255,.18), transparent 32%),
+        linear-gradient(135deg, #05070b, #101722);
     }
-  <head>
-      <meta charset="UTF-8">
-      <title>Karate Reaction Trainer</title>
 
-      <link rel="icon" type="image/png" href="favicon.png">
-  </head>
     .top {
       display: flex;
       justify-content: space-between;
@@ -50,22 +42,22 @@
 
     h1 {
       margin: 0;
-      font-size: clamp(24px, 4vw, 46px);
+      font-size: clamp(24px, 4vw, 48px);
       text-transform: uppercase;
     }
 
     .subtitle {
       margin-top: 8px;
-      color: #8af0bd;
+      color: #43e68f;
       font-size: 13px;
-      font-weight: bold;
+      font-weight: 800;
       letter-spacing: 2px;
       text-transform: uppercase;
     }
 
     .timer {
       text-align: right;
-      font-size: clamp(34px, 6vw, 70px);
+      font-size: clamp(36px, 7vw, 78px);
       font-weight: 900;
       font-variant-numeric: tabular-nums;
     }
@@ -74,71 +66,9 @@
       margin-top: 6px;
       color: #9aa6b7;
       font-size: 13px;
-      font-weight: bold;
-      text-transform: uppercase;
+      font-weight: 800;
       letter-spacing: 2px;
-    }
-
-    .stage {
-      display: grid;
-      place-items: center;
-      position: relative;
-      min-height: 0;
-    }
-
-    .circle {
-      width: min(58vw, 58vh, 460px);
-      aspect-ratio: 1;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      border: 2px solid rgba(255, 255, 255, 0.18);
-      background:
-        radial-gradient(circle at 35% 25%, rgba(255,255,255,0.28), transparent 22%),
-        radial-gradient(circle, #858e9b, #4b535f);
-      box-shadow:
-        inset 0 -35px 80px rgba(0,0,0,0.35),
-        0 0 0 18px rgba(255,255,255,0.035),
-        0 0 80px rgba(130,145,165,0.4);
-      transition: background 0.28s ease, box-shadow 0.28s ease, transform 0.28s ease;
-    }
-
-    .circle.red {
-      background:
-        radial-gradient(circle at 35% 25%, rgba(255,255,255,0.32), transparent 22%),
-        radial-gradient(circle, #ff4a56, #b80818);
-      box-shadow:
-        inset 0 -35px 80px rgba(0,0,0,0.35),
-        0 0 0 28px rgba(255,47,63,0.11),
-        0 0 120px rgba(255,47,63,0.75);
-      transform: scale(1.04);
-    }
-
-    .circle.blue {
-      background:
-        radial-gradient(circle at 35% 25%, rgba(255,255,255,0.32), transparent 22%),
-        radial-gradient(circle, #35a7ff, #064eb8);
-      box-shadow:
-        inset 0 -35px 80px rgba(0,0,0,0.35),
-        0 0 0 28px rgba(32,147,255,0.11),
-        0 0 120px rgba(32,147,255,0.75);
-      transform: scale(1.04);
-    }
-
-    .circle-text {
-      text-align: center;
-      font-size: clamp(30px, 6vw, 70px);
-      font-weight: 900;
       text-transform: uppercase;
-      text-shadow: 0 6px 26px rgba(0,0,0,0.5);
-    }
-
-    .circle-text span {
-      display: block;
-      margin-top: 10px;
-      font-size: clamp(12px, 2vw, 18px);
-      letter-spacing: 3px;
-      color: rgba(255,255,255,0.75);
     }
 
     .stats {
@@ -151,9 +81,9 @@
     .stat {
       min-width: 110px;
       padding: 12px 14px;
-      border: 1px solid rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,.14);
       border-radius: 8px;
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,.06);
       backdrop-filter: blur(12px);
     }
 
@@ -161,7 +91,7 @@
       display: block;
       color: #9aa6b7;
       font-size: 11px;
-      font-weight: bold;
+      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
@@ -173,60 +103,121 @@
       font-variant-numeric: tabular-nums;
     }
 
+    .stage {
+      display: grid;
+      place-items: center;
+      min-height: 0;
+    }
+
+    .circle {
+      width: min(58vw, 58vh, 470px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 2px solid rgba(255,255,255,.18);
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255,255,255,.28), transparent 22%),
+        radial-gradient(circle, #858e9b, #4b535f);
+      box-shadow:
+        inset 0 -35px 80px rgba(0,0,0,.35),
+        0 0 0 18px rgba(255,255,255,.035),
+        0 0 80px rgba(130,145,165,.4);
+      transition: .28s ease;
+    }
+
+    .circle.red {
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255,255,255,.32), transparent 22%),
+        radial-gradient(circle, #ff4a56, #b80818);
+      box-shadow:
+        inset 0 -35px 80px rgba(0,0,0,.35),
+        0 0 0 28px rgba(255,47,63,.12),
+        0 0 130px rgba(255,47,63,.78);
+      transform: scale(1.04);
+    }
+
+    .circle.blue {
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255,255,255,.32), transparent 22%),
+        radial-gradient(circle, #35a7ff, #064eb8);
+      box-shadow:
+        inset 0 -35px 80px rgba(0,0,0,.35),
+        0 0 0 28px rgba(32,147,255,.12),
+        0 0 130px rgba(32,147,255,.78);
+      transform: scale(1.04);
+    }
+
+    .circle-text {
+      text-align: center;
+      text-transform: uppercase;
+      text-shadow: 0 6px 26px rgba(0,0,0,.5);
+    }
+
+    .circle-text strong {
+      display: block;
+      font-size: clamp(34px, 7vw, 76px);
+      font-weight: 900;
+    }
+
+    .circle-text span {
+      display: block;
+      margin-top: 10px;
+      color: rgba(255,255,255,.75);
+      font-size: clamp(12px, 2vw, 18px);
+      font-weight: 800;
+      letter-spacing: 3px;
+    }
+
     .controls {
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 14px;
       align-items: center;
       padding: 14px;
-      border: 1px solid rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,.14);
       border-radius: 8px;
-      background: rgba(12, 17, 26, 0.82);
+      background: rgba(12,17,26,.86);
       backdrop-filter: blur(14px);
     }
 
-    .buttons,
-    .settings {
+    .buttons, .settings {
       display: flex;
       gap: 9px;
       flex-wrap: wrap;
       align-items: center;
     }
 
-    button,
-    select,
-    label {
+    button, select, label {
       height: 44px;
       border-radius: 8px;
       font: inherit;
     }
 
     button {
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
       color: white;
       padding: 0 16px;
       font-weight: 800;
       cursor: pointer;
     }
 
-    button:hover {
-      background: rgba(255,255,255,0.14);
-    }
+    button:hover { background: rgba(255,255,255,.14); }
 
     .primary {
-      border-color: rgba(65, 230, 145, 0.5);
+      border-color: rgba(65,230,145,.5);
       background: linear-gradient(135deg, #41e691, #2493ff);
       color: #04110b;
     }
 
     .danger {
       color: #ffdadd;
-      border-color: rgba(255, 47, 63, 0.45);
+      border-color: rgba(255,47,63,.45);
     }
 
     select {
-      border: 1px solid rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,.16);
       background: #080c13;
       color: white;
       padding: 0 12px;
@@ -238,10 +229,10 @@
       align-items: center;
       gap: 8px;
       padding: 0 12px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
       color: #c9d2df;
-      font-weight: bold;
+      font-weight: 800;
       cursor: pointer;
     }
 
@@ -251,14 +242,14 @@
       bottom: 100px;
       width: min(360px, calc(100vw - 40px));
       padding: 18px;
-      border: 1px solid rgba(65, 230, 145, 0.35);
+      border: 1px solid rgba(65,230,145,.35);
       border-radius: 8px;
       background: #111827;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+      box-shadow: 0 24px 80px rgba(0,0,0,.5);
       opacity: 0;
       transform: translateY(12px);
       pointer-events: none;
-      transition: 0.25s ease;
+      transition: .25s ease;
     }
 
     .result.show {
@@ -280,29 +271,21 @@
     }
 
     @media (max-width: 760px) {
-      html,
-      body {
-        overflow: auto;
-      }
+      html, body { overflow: auto; }
 
       .app {
         overflow: auto;
-        gap: 16px;
+        min-height: 100svh;
       }
 
-      .top,
-      .controls {
-        grid-template-columns: 1fr;
+      .top, .controls {
         display: grid;
+        grid-template-columns: 1fr;
       }
 
-      .timer {
-        text-align: left;
-      }
+      .timer { text-align: left; }
 
-      .circle {
-        width: min(78vw, 42vh, 360px);
-      }
+      .circle { width: min(78vw, 42vh, 360px); }
 
       .result {
         position: static;
@@ -320,22 +303,10 @@
         <div class="subtitle">Karate reaction trainer</div>
 
         <div class="stats">
-          <div class="stat">
-            <small>Команды</small>
-            <strong id="total">0</strong>
-          </div>
-          <div class="stat">
-            <small>Красные</small>
-            <strong id="red">0</strong>
-          </div>
-          <div class="stat">
-            <small>Синие</small>
-            <strong id="blue">0</strong>
-          </div>
-          <div class="stat">
-            <small>В минуту</small>
-            <strong id="pace">0.0</strong>
-          </div>
+          <div class="stat"><small>Команды</small><strong id="total">0</strong></div>
+          <div class="stat"><small>Красные</small><strong id="red">0</strong></div>
+          <div class="stat"><small>Синие</small><strong id="blue">0</strong></div>
+          <div class="stat"><small>В минуту</small><strong id="pace">0.0</strong></div>
         </div>
       </div>
 
@@ -347,9 +318,9 @@
 
     <section class="stage">
       <div class="circle" id="circle">
-        <div class="circle-text" id="circleText">
-          Готов
-          <span id="circleSub">Нажмите старт</span>
+        <div class="circle-text">
+          <strong id="mainLabel">Готов</strong>
+          <span id="subLabel">Нажмите старт</span>
         </div>
       </div>
     </section>
@@ -360,7 +331,7 @@
         <button id="pauseBtn">Пауза</button>
         <button class="danger" id="stopBtn">Стоп</button>
         <button id="resetBtn">Сброс</button>
-        <button id="fullscreenBtn">⛶</button>
+        <button id="fullscreenBtn" title="Полноэкранный режим">⛶</button>
       </div>
 
       <div class="settings">
@@ -388,31 +359,20 @@
 
     <aside class="result" id="result">
       <h2 id="resultTitle">Итог тренировки</h2>
+
       <div class="result-grid">
-        <div class="stat">
-          <small>Команды</small>
-          <strong id="resultTotal">0</strong>
-        </div>
-        <div class="stat">
-          <small>Красные</small>
-          <strong id="resultRed">0</strong>
-        </div>
-        <div class="stat">
-          <small>Синие</small>
-          <strong id="resultBlue">0</strong>
-        </div>
-        <div class="stat">
-          <small>В минуту</small>
-          <strong id="resultPace">0.0</strong>
-        </div>
+        <div class="stat"><small>Команды</small><strong id="resultTotal">0</strong></div>
+        <div class="stat"><small>Красные</small><strong id="resultRed">0</strong></div>
+        <div class="stat"><small>Синие</small><strong id="resultBlue">0</strong></div>
+        <div class="stat"><small>В минуту</small><strong id="resultPace">0.0</strong></div>
       </div>
     </aside>
   </main>
 
   <script>
     const circle = document.getElementById("circle");
-    const circleText = document.getElementById("circleText");
-    const circleSub = document.getElementById("circleSub");
+    const mainLabel = document.getElementById("mainLabel");
+    const subLabel = document.getElementById("subLabel");
 
     const totalEl = document.getElementById("total");
     const redEl = document.getElementById("red");
@@ -482,13 +442,8 @@
       const AudioContext = window.AudioContext || window.webkitAudioContext;
       if (!AudioContext) return;
 
-      if (!audioCtx) {
-        audioCtx = new AudioContext();
-      }
-
-      if (audioCtx.state === "suspended") {
-        audioCtx.resume();
-      }
+      if (!audioCtx) audioCtx = new AudioContext();
+      if (audioCtx.state === "suspended") audioCtx.resume();
     }
 
     function beep(color) {
@@ -517,27 +472,27 @@
 
       if (mode === "red") {
         circle.classList.add("red");
-        circleText.firstChild.nodeValue = "Левая";
-        circleSub.textContent = "Красный сигнал";
+        mainLabel.textContent = "Левая";
+        subLabel.textContent = "Красный сигнал";
         return;
       }
 
       if (mode === "blue") {
         circle.classList.add("blue");
-        circleText.firstChild.nodeValue = "Правая";
-        circleSub.textContent = "Синий сигнал";
+        mainLabel.textContent = "Правая";
+        subLabel.textContent = "Синий сигнал";
         return;
       }
 
       if (phase === "running") {
-        circleText.firstChild.nodeValue = "Ждите";
-        circleSub.textContent = "Следующая команда";
+        mainLabel.textContent = "Ждите";
+        subLabel.textContent = "Следующая команда";
       } else if (phase === "paused") {
-        circleText.firstChild.nodeValue = "Пауза";
-        circleSub.textContent = "Старт продолжит";
+        mainLabel.textContent = "Пауза";
+        subLabel.textContent = "Старт продолжит";
       } else {
-        circleText.firstChild.nodeValue = "Готов";
-        circleSub.textContent = "Нажмите старт";
+        mainLabel.textContent = "Готов";
+        subLabel.textContent = "Нажмите старт";
       }
     }
 
@@ -548,13 +503,8 @@
 
       const roll = Math.random();
 
-      if (roll < 0.36) {
-        return lastColor;
-      }
-
-      if (roll < 0.56) {
-        return lastColor === "red" ? "blue" : "red";
-      }
+      if (roll < 0.36) return lastColor;
+      if (roll < 0.56) return lastColor === "red" ? "blue" : "red";
 
       return Math.random() < 0.5 ? "red" : "blue";
     }
@@ -761,9 +711,7 @@
     });
 
     document.addEventListener("visibilitychange", () => {
-      if (document.hidden && phase === "running") {
-        pause();
-      }
+      if (document.hidden && phase === "running") pause();
     });
 
     reset();
